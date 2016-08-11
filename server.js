@@ -23,7 +23,7 @@ const app = express();
 const connection = connect();
 
 /**
- * Expose
+ * 导出
  */
 module.exports = {
   app,

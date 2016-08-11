@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- * Module dependencies.
+ * 模块依赖
  */
 
 const test = require('tape');

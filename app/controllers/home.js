@@ -1,10 +1,9 @@
-
-/*!
- * Module dependencies.
+/*
+ * 模块依赖
  */
 
 exports.index = function (req, res) {
   res.render('home/index', {
-    title: 'Node Express Mongoose Boilerplate'
+    title: '九次方大数据'
   });
 };

@@ -32,11 +32,6 @@ Thumbs.db
 # Coverage 覆盖文件 #
 /coverage/
 
-# Typing 文件#
-/src/typings/tsd/
-/typings/
-/tsd_typings/
-
 # Dist 生成的文件 #
 /dist
 /public/__build__/
