@@ -18,21 +18,16 @@ const config = require('./config');
 
 const models = join(__dirname, 'app/models');
 const port = process.env.PORT || 3000;
-
 const app = express();
-const connection = connect();
 
 /**
  * 导出
  */
-module.exports = {
-  app,
-  connection
-}
+module.exports = app;
 
 // Bootstrap models
 fs.readdirSync(models)
-  .filter(file => ~file.indexOf('.js'))
+  .filter(file => ~file.search(/^[^\.].*\.js$/))
   .forEach(file => require(join(models, file)));
 
 // Bootstrap routes
@@ -40,7 +35,7 @@ require('./config/passport')(passport);
 require('./config/express')(app, passport);
 require('./config/routes')(app, passport);
 
-connection
+connect()
   .on('error', console.log)
   .on('disconnected', connect)
   .once('open', listen);
@@ -57,8 +52,7 @@ function connect() {
   var options = {
     server: { socketOptions: { keepAlive: 1 } }
   };
-  var connection = mongoose.connect(config.db, options).connection;
-  return connection;
+  return mongoose.connect(config.db, options).connection;
 }
 
 

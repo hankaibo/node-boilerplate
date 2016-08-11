@@ -8,7 +8,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = mongoose.model('User');
 
 /**
- * 导出|暴露接口
+ * 导出
  */
 module.exports = new LocalStrategy(
   {
@@ -19,7 +19,8 @@ module.exports = new LocalStrategy(
     var options = {
       criteria: {
         email: email
-      }
+      },
+      select :' name username email hash_password salt'
     };
     User.load(options, function (err, user) {
       if (err) {

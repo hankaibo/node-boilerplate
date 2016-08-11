@@ -11,6 +11,7 @@ var cookieSession = require('cookie-session');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var csrf = require('csurf');
+var cors = require('cors');
 
 var mongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
@@ -31,6 +32,9 @@ module.exports = function (app, passport) {
     threshold: 512
   }));
 
+  // CORS
+  app.use(cors());
+
   // 静态文件路径中间件
   app.use(express.static(config.root + '/public'));
 
@@ -39,13 +43,9 @@ module.exports = function (app, passport) {
   if (env !== 'development') {
     log = {
       stream: {
-        write: function (message, encoding) {
-          winston.info(message);
-        }
+        write: message => winston.info(message)
       }
     };
-  } else {
-    log = 'dev';
   }
 
   // 日志中间件(测试环境不使用日志)
@@ -57,7 +57,7 @@ module.exports = function (app, passport) {
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
 
-  //
+  // 导出package.json变量到views
   app.use(function (req, res, next) {
     res.locals.pkg = pkg;
     res.locals.env = env;
@@ -112,4 +112,8 @@ module.exports = function (app, passport) {
     });
   }
 
-}
+  if (env === 'development') {
+    app.locals.pretty = true;
+  }
+
+};
