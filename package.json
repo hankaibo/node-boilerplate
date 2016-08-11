@@ -4,6 +4,7 @@
   "description": "A application for express mongoose",
   "scripts": {
     "start": "cross-env NODE_ENV=development nodemon server.js",
+    "debug": "cross-env NODE_ENV=development nodemon --debug server.js",
     "test": "cross-env NODE_ENV=test babel-tape-runner test/test-*.js"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-tape-runner": "^2.0.1",
     "eslint": "^3.2.2",
+    "node-inspector": "^0.12.8",
     "nodemon": "^1.10.0",
     "supertest": "^2.0.0",
     "tape": "^4.6.0"

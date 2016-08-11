@@ -8,8 +8,6 @@ const User = mongoose.model('User');
 
 const local = require('./passport/local');
 
-
-
 /**
  * 导出
  */

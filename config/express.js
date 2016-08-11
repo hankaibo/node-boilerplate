@@ -24,7 +24,7 @@ var pkg = require('../package.json');
 var env = process.env.NODE_ENV || 'development';
 
 /**
- * 导出|暴露接口
+ * 导出
  */
 module.exports = function (app, passport) {
   // 合并中间件(在express.static之前)

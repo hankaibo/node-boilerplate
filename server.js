@@ -45,7 +45,7 @@ function listen() {
     return;
   }
   app.listen(port);
-  console.log('Express app started on port ' + port);
+  console.log('Express应用启动端口:' + port);
 }
 
 function connect() {

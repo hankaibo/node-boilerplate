@@ -10,11 +10,11 @@ var production = require('./env/production');
 var test = require('./env/test');
 
 var defaults = {
-  root: path.normalize(__dirname + '/..')
+  root: path.join(__dirname, '..'),
 };
 
 /**
- * 导出|暴露方法
+ * 导出
  */
 module.exports = {
   development: extend(development, defaults),
