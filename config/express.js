@@ -51,10 +51,13 @@ module.exports=function(app,passport){
     app.use(morgan(log));
   }
 
+  app.set('views',config.root+'/app/views');
+  app.set('view engine','jade');
+
   // 设置视图路径和默认布局
   app.use(function(req,res,next){
     res.locals.pkg=pkg;
-    res.local.env=env;
+    res.locals.env=env;
     next();
   });
 
