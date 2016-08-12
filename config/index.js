@@ -1,16 +1,29 @@
+'use strict';
+
 /**
  * 模块依赖
  */
 
-var path = require('path');
-var extend = require('util')._extend;
+const path = require('path');
+const extend = require('util')._extend;
 
-var development = require('./env/development');
-var production = require('./env/production');
-var test = require('./env/test');
+const development = require('./env/development');
+const production = require('./env/production');
+const test = require('./env/test');
 
-var defaults = {
+// 通知组件配置
+const notifier = {
+  service: 'postmark',
+  APN: false,
+  email: true, // true
+  actions: ['comment'],
+  tplPath: path.join(__dirname, '..', 'app/mailer/templates'),
+  key: 'POSTMARK_KEY'
+};
+
+const defaults = {
   root: path.join(__dirname, '..'),
+  notifier: notifier
 };
 
 /**
@@ -18,7 +31,6 @@ var defaults = {
  */
 module.exports = {
   development: extend(development, defaults),
-  production: extend(production, defaults),
-  test: extend(test, defaults)
+  test: extend(test, defaults),
+  production: extend(production, defaults)
 }[process.env.NODE_ENV || 'development'];
-

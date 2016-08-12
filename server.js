@@ -1,12 +1,15 @@
 'use strict';
 
-/**
- * 当执行 npm start 时的主文件，负责启动模块，配置和路由。
+/*
+ * jusfoun-nodejs-api
+ * Copyright(c) 2016 Jusfoun <999@jusfoun.com>
+ * MIT Licensed
  */
 
 /**
  * 模块依赖
  */
+
 require('dotenv').config();
 
 const fs = require('fs');
@@ -25,12 +28,12 @@ const app = express();
  */
 module.exports = app;
 
-// Bootstrap models
+// 启动模块文件
 fs.readdirSync(models)
   .filter(file => ~file.search(/^[^\.].*\.js$/))
   .forEach(file => require(join(models, file)));
 
-// Bootstrap routes
+// 启动路由
 require('./config/passport')(passport);
 require('./config/express')(app, passport);
 require('./config/routes')(app, passport);
@@ -41,18 +44,12 @@ connect()
   .once('open', listen);
 
 function listen() {
-  if (app.get('env') === 'test') {
-    return;
-  }
+  if (app.get('env') === 'test') { return };
   app.listen(port);
-  console.log('Express应用启动端口:' + port);
+  console.log('Express启动端口:' + port);
 }
 
 function connect() {
-  var options = {
-    server: { socketOptions: { keepAlive: 1 } }
-  };
+  var options = { server: { socketOptions: { keepAlive: 1 } } };
   return mongoose.connect(config.db, options).connection;
 }
-
-

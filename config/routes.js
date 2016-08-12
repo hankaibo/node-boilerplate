@@ -1,45 +1,121 @@
 'use strict';
 
-/**
+/*
  * 模块依赖
  */
-const home = require('../app/controllers/home');
+
 const users = require('../app/controllers/users');
+const articles = require('../app/controllers/articles');
+const comments = require('../app/controllers/comments');
+const tags = require('../app/controllers/tags');
+const auth = require('./middlewares/authorization');
 
 /**
- * 导出
+ * 路由中间件
+ */
+const articleAuth = [auth.requiresLogin, auth.article.hasAuthorization];
+const commentAuth = [auth.requiresLogin, auth.comment.hasAuthorization];
+
+const fail = {
+  failureRedirect: '/login'
+};
+
+/**
+ * 导出路由
  */
 module.exports = function (app, passport) {
   const pauth = passport.authenticate.bind(passport);
 
-  // 视图跳转
-  app.get('/', home.index);
   // 用户路由
+  app.get('/login', users.login);
+  app.get('/signup', users.signup);
+  app.get('/logout', users.logout);
+  app.post('/users', users.create);
   app.post('/users/session',
     pauth('local', {
       failureRedirect: '/login',
-      failureFlash: '用户名称和密码错误'
+      failureFlash: 'Invalid email or password.'
     }), users.session);
-  app.get('/test', function(req, res) {
-    res.json({ message: 'You are running dangerously low on beer!' });
-  });
+  app.get('/users/:userId', users.show);
+  app.get('/auth/facebook',
+    pauth('facebook', {
+      scope: ['email', 'user_about_me'],
+      failureRedirect: '/login'
+    }), users.signin);
+  app.get('/auth/facebook/callback', pauth('facebook', fail), users.authCallback);
+  app.get('/auth/github', pauth('github', fail), users.signin);
+  app.get('/auth/github/callback', pauth('github', fail), users.authCallback);
+  app.get('/auth/twitter', pauth('twitter', fail), users.signin);
+  app.get('/auth/twitter/callback', pauth('twitter', fail), users.authCallback);
+  app.get('/auth/google',
+    pauth('google', {
+      failureRedirect: '/login',
+      scope: [
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email'
+      ]
+    }), users.signin);
+  app.get('/auth/google/callback', pauth('google', fail), users.authCallback);
+  app.get('/auth/linkedin',
+    pauth('linkedin', {
+      failureRedirect: '/login',
+      scope: [
+        'r_emailaddress'
+      ]
+    }), users.signin);
+  app.get('/auth/linkedin/callback', pauth('linkedin', fail), users.authCallback);
 
-  // 错误控制
+  app.param('userId', users.load);
+
+  // article routes
+  app.param('id', articles.load);
+  app.get('/articles', articles.index);
+  app.get('/articles/new', auth.requiresLogin, articles.new);
+  app.post('/articles', auth.requiresLogin, articles.create);
+  app.get('/articles/:id', articles.show);
+  app.get('/articles/:id/edit', articleAuth, articles.edit);
+  app.put('/articles/:id', articleAuth, articles.update);
+  app.delete('/articles/:id', articleAuth, articles.destroy);
+
+  // 首页路由
+  app.get('/', articles.index);
+
+  // 评论路由
+  app.param('commentId', comments.load);
+  app.post('/articles/:id/comments', auth.requiresLogin, comments.create);
+  app.get('/articles/:id/comments', auth.requiresLogin, comments.create);
+  app.delete('/articles/:id/comments/:commentId', commentAuth, comments.destroy);
+
+  // tag routes
+  app.get('/tags/:tag', tags.index);
+
+
+  /**
+   * 错误控制
+   */
   app.use(function (err, req, res, next) {
+    // 作为404对待
     if (err.message
       && (~err.message.indexOf('not found') || (~err.message.indexOf('Cast to ObjectId failed')))) {
       return next();
     }
+
     console.error(err.stack);
-    // 错误页面
+
+    if (err.stack.includes('ValidationError')) {
+      res.status(422).render('422', { error: err.stack });
+      return;
+    }
+
+    // 错误页
     res.status(500).render('500', { error: err.stack });
   });
-  // 404页面
-  app.use(function (req, res, next) {
+
+  // 没有中间件返回假定为404
+  app.use(function (req, res) {
     res.status(404).render('404', {
       url: req.originalUrl,
-      error: '你懂的'
+      error: 'Not found'
     });
   });
-
 };

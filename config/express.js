@@ -1,45 +1,47 @@
+'use strict';
+
 /**
  * 模块依赖
  */
 
-var express = require('express');
-var session = require('express-session');
-var compression = require('compression');
-var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
-var cookieSession = require('cookie-session');
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
-var csrf = require('csurf');
-var cors = require('cors');
+const express = require('express');
+const session = require('express-session');
+const compression = require('compression');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const csrf = require('csurf');
+const cors = require('cors');
+const upload = require('multer')();
 
-var mongoStore = require('connect-mongo')(session);
-var flash = require('connect-flash');
-var winston = require('winston');
-var helpers = require('view-helpers');
-var jade = require('jade');
-var config = require('./');
-var pkg = require('../package.json');
+const mongoStore = require('connect-mongo')(session);
+const flash = require('connect-flash');
+const winston = require('winston');
+const helpers = require('view-helpers');
+const config = require('./');
+const pkg = require('../package.json');
 
-var env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'development';
 
 /**
  * 导出
  */
 module.exports = function (app, passport) {
-  // 合并中间件(在express.static之前)
+
+  // 压缩中间件 (在express.static之前设置)
   app.use(compression({
     threshold: 512
   }));
 
-  // CORS
   app.use(cors());
 
-  // 静态文件路径中间件
+  // 静态文件中间件
   app.use(express.static(config.root + '/public'));
 
-  // 生产环境下使用 winston 日志框架记录日志
-  var log;
+  // 生成环境使用winston日志组件
+  let log = 'dev';
   if (env !== 'development') {
     log = {
       stream: {
@@ -48,28 +50,26 @@ module.exports = function (app, passport) {
     };
   }
 
-  // 日志中间件(测试环境不使用日志)
-  if (env !== 'test') {
-    app.use(morgan(log));
-  }
+  // 测试环境不记录日志
+  // 日志中间件
+  if (env !== 'test') { app.use(morgan(log)) };
 
-  // 使用模板引擎，设置视图路径和默认布局
+  // 设置视图路径，模板引擎和布局
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
 
-  // 导出package.json变量到views
+  // 导出package.json变量
   app.use(function (req, res, next) {
     res.locals.pkg = pkg;
     res.locals.env = env;
     next();
   });
 
-  // 对请求内容进行解析(在methodOverride前面)
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }));
+  // 在methodOverride之前解析参数
   app.use(bodyParser.json());
-  app.use(methodOverride(function (req, res) {
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(upload.single('image'));
+  app.use(methodOverride(function (req) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
       // look in urlencoded POST bodies and delete it
       var method = req.body._method;
@@ -78,14 +78,13 @@ module.exports = function (app, passport) {
     }
   }));
 
-  // cookieParser 中间件应该在 session 之前
+  // 在session之前解析cookie
   app.use(cookieParser());
   app.use(cookieSession({ secret: 'secret' }));
   app.use(session({
-    secret: pkg.name,
-    proxy: true,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
+    secret: pkg.name,
     store: new mongoStore({
       url: config.db,
       collection: 'sessions'
@@ -96,16 +95,16 @@ module.exports = function (app, passport) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // 使用flash给flash messages(应该在声明sessions之后，显示信息的可选组件)
+  // connect flash for flash messages - should be declared after sessions
   app.use(flash());
 
-  // 在session和flash之后声明使用
+  // 最后宣布它们
   app.use(helpers(pkg.name));
 
-  // 添加CSRF支持
-  if (process.env.NODE_ENV !== 'test') {
+  if (env !== 'test') {
     app.use(csrf());
-    //
+
+    // This could be moved to view-helpers :-)
     app.use(function (req, res, next) {
       res.locals.csrf_token = req.csrfToken();
       next();
@@ -115,5 +114,4 @@ module.exports = function (app, passport) {
   if (env === 'development') {
     app.locals.pretty = true;
   }
-
 };
