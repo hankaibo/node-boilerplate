@@ -126,8 +126,8 @@ ArticleSchema.methods = {
       .map(comment => comment.id)
       .indexOf(commentId);
 
-    if (~index) this.comments.splice(index, 1);
-    else throw new Error('Comment not found');
+    if (~index) { this.comments.splice(index, 1); }
+    else { throw new Error('Comment not found');}
     return this.save();
   }
 };
