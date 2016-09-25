@@ -8,6 +8,7 @@ const users = require('../app/controllers/users');
 const articles = require('../app/controllers/articles');
 const comments = require('../app/controllers/comments');
 const tags = require('../app/controllers/tags');
+const excel = require('../app/controllers/excel');
 const auth = require('./middlewares/authorization');
 
 /**
@@ -67,7 +68,7 @@ module.exports = function (app, passport) {
 
   app.param('userId', users.load);
 
-  // article routes
+  // 文章路由
   app.param('id', articles.load);
   app.get('/articles', articles.index);
   app.get('/articles/new', auth.requiresLogin, articles.new);
@@ -86,8 +87,11 @@ module.exports = function (app, passport) {
   app.get('/articles/:id/comments', auth.requiresLogin, comments.create);
   app.delete('/articles/:id/comments/:commentId', commentAuth, comments.destroy);
 
-  // tag routes
+  // 标签路由
   app.get('/tags/:tag', tags.index);
+
+  // Excel路由
+  app.get('/execl',excel.write);
 
 
   /**
@@ -110,7 +114,6 @@ module.exports = function (app, passport) {
     // 错误页
     res.status(500).render('500', { error: err.stack });
   });
-
   // 没有中间件返回假定为404
   app.use(function (req, res) {
     res.status(404).render('404', {
