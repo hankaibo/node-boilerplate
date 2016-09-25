@@ -116,9 +116,11 @@ module.exports = function (app, passport) {
   });
   // 没有中间件返回假定为404
   app.use(function (req, res) {
-    res.status(404).render('404', {
+    const payload = {
       url: req.originalUrl,
       error: 'Not found'
-    });
+    };
+    if (req.accepts('json')) return res.status(404).json(payload);
+    res.status(404).render('404', payload);
   });
 };
