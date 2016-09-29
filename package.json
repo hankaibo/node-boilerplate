@@ -32,7 +32,7 @@
     "cookie-parser": "~1.4.0",
     "cookie-session": "~1.2.0",
     "cors": "~2.8.0",
-    "cross-env": "~2.0.0",
+    "cross-env": "~3.0.0",
     "csurf": "~1.9.0",
     "dotenv": "~2.0.0",
     "excel-export": "^0.5.1",
@@ -41,7 +41,7 @@
     "forever": "~0.15.1",
     "jade": "~1.11.0",
     "method-override": "~2.3.5",
-    "mongoose": "~4.5.0",
+    "mongoose": "~4.6.1",
     "morgan": "~1.7.0",
     "multer": "~1.2.0",
     "notifier": "~0.1.7",
@@ -57,10 +57,10 @@
     "winston": "~2.2.0"
   },
   "devDependencies": {
-    "babel-eslint": "~6.1.0",
-    "babel-preset-stage-0": "~6.5.0",
+    "babel-eslint": "~7.0.0",
+    "babel-preset-stage-0": "~6.16.0",
     "babel-tape-runner": "~2.0.1",
-    "eslint": "~3.4.0",
+    "eslint": "~3.6.1",
     "nodemon": "1.10.2",
     "supertest": "*",
     "tape": "~4.6.0"
