@@ -32,7 +32,7 @@
     "cookie-parser": "~1.4.0",
     "cookie-session": "~1.2.0",
     "cors": "~2.8.0",
-    "cross-env": "~3.0.0",
+    "cross-env": "~3.1.1",
     "csurf": "~1.9.0",
     "dotenv": "~2.0.0",
     "excel-export": "^0.5.1",
@@ -60,8 +60,8 @@
     "babel-eslint": "~7.0.0",
     "babel-preset-stage-0": "~6.16.0",
     "babel-tape-runner": "~2.0.1",
-    "eslint": "~3.6.1",
-    "nodemon": "1.10.2",
+    "eslint": "~3.8.0",
+    "nodemon": "1.11.0",
     "supertest": "*",
     "tape": "~4.6.0"
   }
