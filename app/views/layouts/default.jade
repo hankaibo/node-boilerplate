@@ -2,13 +2,17 @@ doctype html
 html(lang="zh-Hans-CN")
   include ../includes/head.jade
   body
-    include ../includes/header.jade
-    .container
-      .page-header
-        block main
-      .messages
-        include ../includes/messages.jade
-      .content
-        block content
+    #wrapper
+      include ../includes/header.jade
+      #page-wrapper
+        .row
+          .col-lg-12
+            block main
+        .row
+          .col-lg-12
+            include ../includes/messages.jade
+        .row
+          .col-lg-12
+            block content
     include ../includes/footer.jade
     include ../includes/foot.jade
