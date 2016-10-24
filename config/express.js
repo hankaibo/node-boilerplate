@@ -40,7 +40,7 @@ module.exports = function (app, passport) {
   // 静态文件中间件
   app.use(express.static(config.root + '/public'));
 
-  // 生成环境使用winston日志组件
+  // 生产环境使用winston日志组件
   let log = 'dev';
   if (env !== 'development') {
     log = {

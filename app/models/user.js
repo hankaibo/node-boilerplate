@@ -40,7 +40,6 @@ const validatePresenceOf = value => value && value.length;
 /**
  * Virtuals
  */
-
 UserSchema
   .virtual('password')
   .set(function (password) {
@@ -55,16 +54,14 @@ UserSchema
 /**
  * Validations
  */
-
 // the below 5 validations only apply if you are signing up traditionally
-
 UserSchema.path('name').validate(function (name) {
-  if (this.skipValidation()) return true;
+  if (this.skipValidation()) { return true };
   return name.length;
 }, 'Name cannot be blank');
 
 UserSchema.path('email').validate(function (email) {
-  if (this.skipValidation()) return true;
+  if (this.skipValidation()) { return true };
   return email.length;
 }, 'Email cannot be blank');
 
@@ -81,12 +78,12 @@ UserSchema.path('email').validate(function (email, fn) {
 }, 'Email already exists');
 
 UserSchema.path('username').validate(function (username) {
-  if (this.skipValidation()) return true;
+  if (this.skipValidation()) { return true };
   return username.length;
 }, 'Username cannot be blank');
 
 UserSchema.path('hashed_password').validate(function (hashed_password) {
-  if (this.skipValidation()) return true;
+  if (this.skipValidation()) { return true };
   return hashed_password.length && this._password.length;
 }, 'Password cannot be blank');
 
@@ -94,9 +91,8 @@ UserSchema.path('hashed_password').validate(function (hashed_password) {
 /**
  * Pre-save hook
  */
-
 UserSchema.pre('save', function (next) {
-  if (!this.isNew) return next();
+  if (!this.isNew){ return next() };
 
   if (!validatePresenceOf(this.password) && !this.skipValidation()) {
     next(new Error('Invalid password'));
@@ -108,7 +104,6 @@ UserSchema.pre('save', function (next) {
 /**
  * Methods
  */
-
 UserSchema.methods = {
 
   /**
@@ -118,7 +113,6 @@ UserSchema.methods = {
    * @return {Boolean}
    * @api public
    */
-
   authenticate: function (plainText) {
     return this.encryptPassword(plainText) === this.hashed_password;
   },
@@ -129,7 +123,6 @@ UserSchema.methods = {
    * @return {String}
    * @api public
    */
-
   makeSalt: function () {
     return Math.round((new Date().valueOf() * Math.random())) + '';
   },
@@ -141,7 +134,6 @@ UserSchema.methods = {
    * @return {String}
    * @api public
    */
-
   encryptPassword: function (password) {
     if (!password) return '';
     try {
@@ -157,7 +149,6 @@ UserSchema.methods = {
   /**
    * Validation is not required if using OAuth
    */
-
   skipValidation: function () {
     return ~oAuthTypes.indexOf(this.provider);
   }
@@ -166,7 +157,6 @@ UserSchema.methods = {
 /**
  * Statics
  */
-
 UserSchema.statics = {
 
   /**
@@ -176,7 +166,6 @@ UserSchema.statics = {
    * @param {Function} cb
    * @api private
    */
-
   load: function (options, cb) {
     options.select = options.select || 'name username';
     return this.findOne(options.criteria)
