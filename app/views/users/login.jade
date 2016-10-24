@@ -9,6 +9,7 @@ block auth
             h3.panel-title Please Sign input
           .panel-body
             form(action="/users/session", method="post", role="form")
+              input(type='hidden', name='_csrf', value="#{csrf_token}")
               fieldset
                 .form-group
                   input.form-control(type="email", placeholder="email", name="email", required autofocus)
