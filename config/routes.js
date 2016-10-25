@@ -6,6 +6,7 @@
 
 const users = require('../app/controllers/users');
 const articles = require('../app/controllers/articles');
+const reports = require('../app/controllers/reports');
 const comments = require('../app/controllers/comments');
 const tags = require('../app/controllers/tags');
 const excel = require('../app/controllers/excel');
@@ -51,14 +52,16 @@ module.exports = function (app, passport) {
   app.put('/articles/:id', articleAuth, articles.update);
   app.delete('/articles/:id', articleAuth, articles.destroy);
 
-  // 首页路由
-  app.get('/', articles.index);
+  // 报表路由
+  app.param('id', reports.load);
+  app.get('/reports', reports.index);
+  app.get('/reports/new', auth.requiresLogin, reports.new);
+  app.post('/reports', auth.requiresLogin, reports.create);
+  app.get('/reports/:id', reports.show);
+  app.delete('/reports/:id', articleAuth, reports.destroy);
 
-  // 评论路由
-  app.param('commentId', comments.load);
-  app.post('/articles/:id/comments', auth.requiresLogin, comments.create);
-  app.get('/articles/:id/comments', auth.requiresLogin, comments.create);
-  app.delete('/articles/:id/comments/:commentId', commentAuth, comments.destroy);
+  // 首页路由
+  app.get('/', reports.index);
 
   // 标签路由
   app.get('/tags/:tag', tags.index);

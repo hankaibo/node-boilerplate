@@ -1,0 +1,91 @@
+extends ../layouts/default
+
+block main
+  h1=name
+
+block content
+  - var action = '/reports'
+  - action += report.isNew? '' : '/'+report.id
+
+  form.form-horizontal(method="post",action=action,role="form")
+    input(type="hidden", name="_csrf", value="#{csrf_token}")
+
+    - if (!report.isNew)
+      input(type="hidden", name="_method", value="PUT")
+
+    .row
+      .form-group.col-md-4
+        .row
+          label.col-sm-3.control-label(for="text1") 鸡群
+          .col-sm-9
+            input.form-control#text1(type="text",name="text1",value="report.text1",placeholder="请输入鸡群数")
+      .form-group.col-md-4
+        .row
+          label.col-sm-3.control-label(for="text4") 采样日期
+          .col-sm-9
+            input.form-control#text4(type="text",name="text4",value="report.text4",placeholder="a")
+      .form-group.col-md-4
+        .row
+          label.col-sm-3.control-label(for="text7") 数量
+          .col-sm-9
+            input.form-control#text7(type="text",name="text7",value="report.text7",placeholder="a")
+    .row
+      .form-group.col-md-4
+        .row
+          label.col-sm-3.control-label(for="text2") 鸡群
+          .col-sm-9
+            input.form-control#text2(type="text",name="text2",value="report.text2",placeholder="a")
+      .form-group.col-md-4
+        .row
+          label.col-sm-3.control-label(for="text5") 鸡群
+          .col-sm-9
+            input.form-control#text5(type="text",name="text5",value="report.text5",placeholder="a")
+      .form-group.col-md-4
+        .row
+          label.col-sm-3.control-label(for="text8") 鸡群
+          .col-sm-9
+            label.checkbox-inline
+              input(type="radio", name="gender_filter", value="1", checked=gender=="male")
+            label.checkbox-inline
+              input(type="radio", name="gender_filter", value="2", checked=gender=="male")
+    .row
+      .form-group.col-md-4
+        .row
+          label.col-sm-3.control-label(for="text3") 鸡群
+          .col-sm-9
+            input.form-control#text3(type="text",name="text3",value="report.text3",placeholder="a")
+      .form-group.col-md-4
+        .row
+          label.col-sm-3.control-label(for="text6") 鸡群
+          .col-sm-9
+            input.form-control#text6(type="text",name="text6",value="report.text6",placeholder="a")
+    .row
+      .form-group
+        label.col-sm-2.control-label 项目
+        .col-sm-8
+          label.checkbox-inline
+            input#inlineCheckbox1( type="checkbox",value="option1")
+          label.checkbox-inline
+            input#inlineCheckbox2( type="checkbox",value="option1")
+          label.checkbox-inline
+            input#inlineCheckbox3( type="checkbox",value="option1")
+          label.checkbox-inline
+            input#inlineCheckbox4( type="checkbox",value="option1")
+          label.checkbox-inline
+            input#inlineCheckbox1( type="checkbox",value="option1")
+          label.checkbox-inline
+            input#inlineCheckbox2( type="checkbox",value="option1")
+          label.checkbox-inline
+            input#inlineCheckbox3( type="checkbox",value="option1")
+          label.checkbox-inline
+            input#inlineCheckbox4( type="checkbox",value="option1")
+    .row
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          button.btn.btn-lg.btn-primary(type='submit') 保存
+          | &nbsp;
+          button.btn.btn-lg.btn-primary(type='submit') 保存
+          | &nbsp;
+          button.btn.btn-lg.btn-primary(type='submit') 保存
+          | &nbsp;
+          a.btn(href='/report', title="cancel") 取消

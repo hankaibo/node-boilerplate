@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const { wrap: async } = require('co');
 const { respond } = require('../utils');
 const Article = mongoose.model('Article');
+const Report = mongoose.model('Report');
 
 /**
  * List items tagged with a tag
