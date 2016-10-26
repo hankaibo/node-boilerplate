@@ -24,6 +24,7 @@ const ReportSchema = new Schema({
   text6: { type: String, default: '', trim: true },//检测日期
   text7: { type: String, default: '', trim: true },//每栋样品数量
   text8: { type: String, default: '', trim: true },//报表样式
+  text9: { type: String, default: '', trim: true },//报表样式
   tags: { type: [], get: getTags, set: setTags },//检测项目
   creatdAt: { type: Date, default: Date.now }
 });

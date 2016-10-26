@@ -91,28 +91,34 @@ exports.create = async(function* (req, res) {
   var uploadDir = 'public/upload/excel/';
   var filePath = uploadDir + filename + random + ".xlsx";
 
+  console.log(filePath);
+
   fs.writeFile(filePath, result, 'binary', function (err) {
     if (err) {
       console.log(err);
     }
   });
 
-
-  const report = new Report(only(req.body, 'title body tags'));
-  report.user = req.user;
-  try {
-    yield report.uploadAndSave(req.file);
-    respondOrRedirect({ req, res }, `/reports/${report._id}`, report, {
-      type: 'success',
-      text: 'Successfully created report!'
+  console.log(req.body);
+   respond(res, 'reports', {
     });
-  } catch (err) {
-    respond(res, 'report/new', {
-      name: report.name || 'New Report',
-      errors: [err.toString()],
-      report
-    }, 422);
-  }
+
+
+  // const report = new Report(only(req.body, 'title body tags'));
+  // report.user = req.user;
+  // try {
+  //   yield report.uploadAndSave(req.file);
+  //   respondOrRedirect({ req, res }, `/reports/${report._id}`, report, {
+  //     type: 'success',
+  //     text: 'Successfully created report!'
+  //   });
+  // } catch (err) {
+  //   respond(res, 'reports/new', {
+  //     name: report.name || 'New Report',
+  //     errors: [err.toString()],
+  //     report
+  //   }, 422);
+  // }
 });
 
 /**

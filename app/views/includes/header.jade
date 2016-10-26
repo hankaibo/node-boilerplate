@@ -15,25 +15,25 @@ nav.navbar.navbar-default.navbar-static-top(role='navigation',style="margin-bott
         li
           a(href="/users/", title="help")
             i.fa.fa-comments-o.fa-fw
-            帮助
+            span 帮助
         - if (req.isAuthenticated())
           li
             a(href="/users/"+req.user.id, title="Profile")
               i.fa.fa-user.fa-fw
-              用户简介
+              span 用户简介
         li.divider
         li
           a(href="/logout", title="logout")
             i.fa.fa-sign-out.fa-fw
-            登出
+            span 登出
   .navbar-default.sidebar(role="navigation")
     .sidebar-nav.navbar-collapse
       ul#side-menu.nav
         li
           a(href="/reports/new")
             i.fa.fa-file-excel-o.fa-fw
-            生成
+            span 生成
         li
           a(href="/reports")
             i.fa.fa-download.fa-fw
-            下载
+            span 下载
