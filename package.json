@@ -54,7 +54,8 @@
     "passport-local": "~1.0.0",
     "passport-twitter": "~1.0.3",
     "view-helpers": "~0.1.5",
-    "winston": "~2.2.0"
+    "winston": "~2.2.0",
+    "xlsx": "^0.8.0"
   },
   "devDependencies": {
     "babel-eslint": "~7.0.0",

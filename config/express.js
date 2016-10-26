@@ -101,7 +101,7 @@ module.exports = function (app, passport) {
   // 最后宣布它们
   app.use(helpers(pkg.name));
 
-  if (env == 'test') {
+  if (env !== 'test') {
     app.use(csrf());
 
     // This could be moved to view-helpers :-)
