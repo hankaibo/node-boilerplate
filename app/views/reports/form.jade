@@ -1,7 +1,7 @@
 extends ../layouts/default
 
 block main
-  h1=name
+  h1.page-header= name
 
 block content
   - var action = '/reports'
@@ -18,74 +18,82 @@ block content
         .row
           label.col-sm-3.control-label(for="text1") 鸡群
           .col-sm-9
-            input.form-control#text1(type="text",name="text1",value="report.text1",placeholder="请输入鸡群数")
+            input.form-control#text1(type="text",name="text1",value="report.text1",placeholder="鸡群数")
       .form-group.col-md-4
         .row
           label.col-sm-3.control-label(for="text4") 采样日期
           .col-sm-9
-            input.form-control#text4(type="text",name="text4",value="report.text4",placeholder="a")
+            input.form-control#text4(type="text",name="text4",value="report.text4",placeholder="采样日期")
       .form-group.col-md-4
         .row
-          label.col-sm-3.control-label(for="text7") 数量
+          label.col-sm-3.control-label(for="text7") 数量/栋
           .col-sm-9
-            input.form-control#text7(type="text",name="text7",value="report.text7",placeholder="a")
+            input.form-control#text7(type="text",name="text7",value="report.text7",placeholder="数量/栋")
     .row
       .form-group.col-md-4
         .row
-          label.col-sm-3.control-label(for="text2") 鸡群
+          label.col-sm-3.control-label(for="text2") 栋数
           .col-sm-9
-            input.form-control#text2(type="text",name="text2",value="report.text2",placeholder="a")
+            input.form-control#text2(type="text",name="text2",value="report.text2",placeholder="栋数")
       .form-group.col-md-4
         .row
-          label.col-sm-3.control-label(for="text5") 鸡群
+          label.col-sm-3.control-label(for="text5") 送检日期
           .col-sm-9
-            input.form-control#text5(type="text",name="text5",value="report.text5",placeholder="a")
+            input.form-control#text5(type="text",name="text5",value="report.text5",placeholder="送检日期")
       .form-group.col-md-4
         .row
-          label.col-sm-3.control-label(for="text8") 鸡群
+          label.col-sm-3.control-label(for="text8") 报告样式
           .col-sm-9
             label.checkbox-inline
               input(type="radio", name="gender_filter", value="1", checked=gender=="male")
+              | 栋
             label.checkbox-inline
               input(type="radio", name="gender_filter", value="2", checked=gender=="male")
+              | 项目
     .row
       .form-group.col-md-4
         .row
-          label.col-sm-3.control-label(for="text3") 鸡群
+          label.col-sm-3.control-label(for="text3") 周龄
           .col-sm-9
-            input.form-control#text3(type="text",name="text3",value="report.text3",placeholder="a")
+            input.form-control#text3(type="text",name="text3",value="report.text3",placeholder="周龄")
       .form-group.col-md-4
         .row
-          label.col-sm-3.control-label(for="text6") 鸡群
+          label.col-sm-3.control-label(for="text6") 检测日期
           .col-sm-9
-            input.form-control#text6(type="text",name="text6",value="report.text6",placeholder="a")
+            input.form-control#text6(type="text",name="text6",value="report.text6",placeholder="检测日期")
     .row
       .form-group
-        label.col-sm-2.control-label 项目
+        label.col-sm-2.control-label 检测项目
         .col-sm-8
           label.checkbox-inline
             input#inlineCheckbox1( type="checkbox",value="option1")
+            | ND
           label.checkbox-inline
             input#inlineCheckbox2( type="checkbox",value="option1")
+            | RE-6
           label.checkbox-inline
             input#inlineCheckbox3( type="checkbox",value="option1")
+            | V6
           label.checkbox-inline
             input#inlineCheckbox4( type="checkbox",value="option1")
+            | RE-7
           label.checkbox-inline
             input#inlineCheckbox1( type="checkbox",value="option1")
+            | V7
           label.checkbox-inline
             input#inlineCheckbox2( type="checkbox",value="option1")
+            | RE-8
           label.checkbox-inline
             input#inlineCheckbox3( type="checkbox",value="option1")
+            | H9
           label.checkbox-inline
             input#inlineCheckbox4( type="checkbox",value="option1")
+            | EDS
     .row
       .form-group
         .col-sm-offset-2.col-sm-10
-          button.btn.btn-lg.btn-primary(type='submit') 保存
+          button.btn.btn-lg.btn-primary(type='submit') 确定
           | &nbsp;
-          button.btn.btn-lg.btn-primary(type='submit') 保存
+          button.btn.btn-lg.btn-primary(type='submit') 重置
           | &nbsp;
-          button.btn.btn-lg.btn-primary(type='submit') 保存
-          | &nbsp;
-          a.btn(href='/report', title="cancel") 取消
+          a.btn.btn-lg.btn-primary(role="button",href='/report', title="cancel") 取消

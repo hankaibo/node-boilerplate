@@ -5,11 +5,8 @@
  */
 
 const users = require('../app/controllers/users');
-const articles = require('../app/controllers/articles');
 const reports = require('../app/controllers/reports');
-const comments = require('../app/controllers/comments');
 const tags = require('../app/controllers/tags');
-const excel = require('../app/controllers/excel');
 const auth = require('./middlewares/authorization');
 
 /**
@@ -42,16 +39,6 @@ module.exports = function (app, passport) {
 
   app.param('userId', users.load);
 
-  // 文章路由
-  app.param('id', articles.load);
-  app.get('/articles', articles.index);
-  app.get('/articles/new', auth.requiresLogin, articles.new);
-  app.post('/articles', auth.requiresLogin, articles.create);
-  app.get('/articles/:id', articles.show);
-  app.get('/articles/:id/edit', articleAuth, articles.edit);
-  app.put('/articles/:id', articleAuth, articles.update);
-  app.delete('/articles/:id', articleAuth, articles.destroy);
-
   // 报表路由
   app.param('id', reports.load);
   app.get('/reports', reports.index);
@@ -65,9 +52,6 @@ module.exports = function (app, passport) {
 
   // 标签路由
   app.get('/tags/:tag', tags.index);
-
-  // Excel路由
-  app.get('/execl', excel.write);
 
 
   /**

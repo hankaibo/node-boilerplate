@@ -9,6 +9,9 @@ const only = require('only');
 const {respond, respondOrRedirect} = require('../utils');
 const Report = mongoose.model('Report');
 const assign = Object.assign;
+const fs = require('fs');
+const path = require('path');
+const excelPort = require('excel-export');
 
 /**
  * 获取一条数据
@@ -57,7 +60,7 @@ exports.index = async(function* (req, res) {
  */
 exports.new = function (req, res) {
   res.render('reports/new', {
-    name: 'new',
+    name: '欢迎使用',
     report: new Report()
   });
 };
@@ -66,6 +69,35 @@ exports.new = function (req, res) {
  * 新建
  */
 exports.create = async(function* (req, res) {
+  const conf = {};
+  const filename = 'filename';  //只支持字母和数字命名
+
+  conf.cols = [
+    { caption: '名称', type: 'string', width: 20 },
+    { caption: '简介', type: 'string', width: 40 },
+    { caption: '报酬', type: 'string', width: 20 }
+  ];
+
+  var array = [];
+  array[0] = [
+    'datas[0][0]',
+    'datas[0][1]',
+    'datas[0][2]'
+  ];
+
+  conf.rows = array[0];
+  var result = excelPort.execute(conf);
+  var random = Math.floor(Math.random() * 10000 + 0);
+  var uploadDir = 'public/upload/excel/';
+  var filePath = uploadDir + filename + random + ".xlsx";
+
+  fs.writeFile(filePath, result, 'binary', function (err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+
+
   const report = new Report(only(req.body, 'title body tags'));
   report.user = req.user;
   try {
