@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * 模块依赖
+ * Module dependencies.
  */
 
 const mongoose = require('mongoose');
@@ -10,8 +10,9 @@ const config = require('../');
 const User = mongoose.model('User');
 
 /**
- * 导出
+ * Expose
  */
+
 module.exports = new TwitterStrategy({
   consumerKey: config.twitter.clientID,
   consumerSecret: config.twitter.clientSecret,
@@ -19,10 +20,10 @@ module.exports = new TwitterStrategy({
 },
   function (accessToken, refreshToken, profile, done) {
     const options = {
-      criteria: { 'twitter.id': profile.id }
+      criteria: { 'twitter.id_str': profile.id }
     };
     User.load(options, function (err, user) {
-      if (err) { return done(err) };
+      if (err) return done(err);
       if (!user) {
         user = new User({
           name: profile.displayName,
@@ -31,7 +32,7 @@ module.exports = new TwitterStrategy({
           twitter: profile._json
         });
         user.save(function (err) {
-          if (err) { console.log(err) };
+          if (err) console.log(err);
           return done(err, user);
         });
       } else {
