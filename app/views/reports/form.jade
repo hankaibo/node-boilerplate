@@ -97,3 +97,12 @@ block content
           button.btn.btn-lg.btn-primary(type='submit') 重置
           | &nbsp;
           a.btn.btn-lg.btn-primary(role="button",href='/report', title="cancel") 取消
+          | &nbsp;
+          button.btn.btn-lg.btn-default(type="button",class="demo") 示例
+
+  script
+    $(function() {
+      $('.demo').on('click',function(){
+        console.log('demo');
+      });
+    });
