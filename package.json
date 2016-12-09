@@ -41,7 +41,7 @@
     "forever": "~0.15.1",
     "jade": "~1.11.0",
     "method-override": "~2.3.5",
-    "mongoose": "~4.6.1",
+    "mongoose": "~4.7.2",
     "morgan": "~1.7.0",
     "multer": "~1.2.0",
     "notifier": "~0.1.7",
@@ -60,7 +60,7 @@
     "babel-eslint": "~7.1.0",
     "babel-preset-stage-0": "~6.16.0",
     "babel-tape-runner": "~2.0.1",
-    "eslint": "~3.10.2",
+    "eslint": "~3.11.1",
     "nodemon": "1.11.0",
     "supertest": "*",
     "tape": "~4.6.0"
