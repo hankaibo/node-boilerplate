@@ -35,9 +35,13 @@ module.exports = function (app, passport) {
     threshold: 512
   }));
 
-  app.use(cors());
+  app.use(cors({
+    origin: ['http://localhost:3000', 'https://reboil-demo.herokuapp.com'],
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    credentials: true
+  }));
 
-  // 静态文件中间件
+  // Static files middleware
   app.use(express.static(config.root + '/public'));
 
   // 生产环境使用winston日志组件
