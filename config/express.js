@@ -28,18 +28,21 @@ const env = process.env.NODE_ENV || 'development';
 /**
  * 导出
  */
-module.exports = function (app, passport) {
-
+module.exports = function(app, passport) {
   // 压缩中间件 (在express.static之前设置)
-  app.use(compression({
-    threshold: 512
-  }));
+  app.use(
+    compression({
+      threshold: 512
+    })
+  );
 
-  app.use(cors({
-    origin: ['http://localhost:3000', 'https://reboil-demo.herokuapp.com'],
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-    credentials: true
-  }));
+  app.use(
+    cors({
+      origin: ['http://localhost:3000', 'https://reboil-demo.herokuapp.com'],
+      optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+      credentials: true
+    })
+  );
 
   // Static files middleware
   app.use(express.static(config.root + '/public'));
@@ -56,14 +59,16 @@ module.exports = function (app, passport) {
 
   // 测试环境不记录日志
   // 日志中间件
-  if (env !== 'test') { app.use(morgan(log)) };
+  if (env !== 'test') {
+    app.use(morgan(log));
+  }
 
   // 设置视图路径，模板引擎和布局
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
 
   // 导出package.json变量
-  app.use(function (req, res, next) {
+  app.use(function(req, res, next) {
     res.locals.pkg = pkg;
     res.locals.env = env;
     next();
@@ -73,27 +78,31 @@ module.exports = function (app, passport) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(upload.single('image'));
-  app.use(methodOverride(function (req) {
-    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-      // look in urlencoded POST bodies and delete it
-      var method = req.body._method;
-      delete req.body._method;
-      return method;
-    }
-  }));
+  app.use(
+    methodOverride(function(req) {
+      if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        // look in urlencoded POST bodies and delete it
+        var method = req.body._method;
+        delete req.body._method;
+        return method;
+      }
+    })
+  );
 
   // 在session之前解析cookie
   app.use(cookieParser());
   app.use(cookieSession({ secret: 'secret' }));
-  app.use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: pkg.name,
-    store: new mongoStore({
-      url: config.db,
-      collection: 'sessions'
+  app.use(
+    session({
+      resave: false,
+      saveUninitialized: true,
+      secret: pkg.name,
+      store: new mongoStore({
+        url: config.db,
+        collection: 'sessions'
+      })
     })
-  }));
+  );
 
   // 使用 passport session
   app.use(passport.initialize());
@@ -109,7 +118,7 @@ module.exports = function (app, passport) {
     app.use(csrf());
 
     // This could be moved to view-helpers :-)
-    app.use(function (req, res, next) {
+    app.use(function(req, res, next) {
       res.locals.csrf_token = req.csrfToken();
       next();
     });

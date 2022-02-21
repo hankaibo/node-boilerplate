@@ -1,7 +1,7 @@
 
-# Jusfoun Nodejs API
+# Nodejs API
 
-九次方nodejs接口应用。
+nodejs接口应用。
 
 ## 环境要求
 

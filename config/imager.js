@@ -1,4 +1,3 @@
-
 /**
  * 导出
  */
@@ -8,9 +7,7 @@ module.exports = {
       resize: {
         detail: 'x440'
       },
-      crop: {
-
-      },
+      crop: {},
       resizeAndCrop: {
         mini: { resize: '63504@', crop: '252x210' }
       }
@@ -32,4 +29,4 @@ module.exports = {
   },
 
   debug: true
-}
+};

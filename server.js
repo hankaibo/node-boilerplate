@@ -1,15 +1,5 @@
 'use strict';
 
-/*
- * jusfoun-nodejs-api
- * Copyright(c) 2016 Jusfoun <999@jusfoun.com>
- * MIT Licensed
- */
-
-/**
- * 模块依赖
- */
-
 require('dotenv').config();
 
 const fs = require('fs');
@@ -23,9 +13,6 @@ const models = join(__dirname, 'app/models');
 const port = process.env.PORT || 3000;
 const app = express();
 
-/**
- * 导出
- */
 module.exports = app;
 
 // 启动模块文件
@@ -44,12 +31,17 @@ connect()
   .once('open', listen);
 
 function listen() {
-  if (app.get('env') === 'test') { return };
+  if (app.get('env') === 'test') {
+    return;
+  }
   app.listen(port);
   console.log('Express启动端口:' + port);
 }
 
 function connect() {
   var options = { server: { socketOptions: { keepAlive: 1 } } };
-  return mongoose.connect(config.db, options).connection;
+  return mongoose.connect(
+    config.db,
+    options
+  ).connection;
 }

@@ -1,11 +1,6 @@
 'use strict';
 
-/**
- * 模块依赖
- */
-
 const path = require('path');
-
 const development = require('./env/development');
 const production = require('./env/production');
 const test = require('./env/test');
@@ -25,11 +20,8 @@ const defaults = {
   notifier: notifier
 };
 
-/**
- * 导出
- */
 module.exports = {
   development: Object.assign({}, development, defaults),
-  test: Object.assign({}, test, defaults),
-  production: Object.assign({}, production, defaults)
+  production: Object.assign({}, production, defaults),
+  test: Object.assign({}, test, defaults)
 }[process.env.NODE_ENV || 'development'];
